@@ -55,6 +55,16 @@ module.exports = {
    */
   build: {
     transpile: [/^element-ui/],
+    postcss: {
+      plugins: {
+        // Disable a plugin by passing false as value
+        "postcss-nested": {},
+        "postcss-preset-env": {
+          stage: 0,
+          importFrom: "./assets/variables.css"
+        }
+      }
+    },
     /*
      ** You can extend webpack config here
      */
