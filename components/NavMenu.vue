@@ -1,8 +1,9 @@
 <template>
   <el-menu
     :default-active="activeIndex"
-    background-color="var(--primary)"
+    background-color="#185190"
     active-text-color="var(--light)"
+    text-color="var(--light-inactive)"
     mode="horizontal"
     :router="true"
   >
@@ -18,10 +19,12 @@
         </div>
       </div>
       <div :class="$style.menu_content">
-        <NuxtLink to="/login">
+        <NuxtLink to="/login" v-if="!$store.state.auth">
           <el-menu-item index="/login">Sign In</el-menu-item>
         </NuxtLink>
-        <el-menu-item index="" @click="logout">SignOut</el-menu-item>
+        <el-menu-item index="" @click="logout" v-if="$store.state.auth"
+          >SignOut</el-menu-item
+        >
       </div>
     </div>
   </el-menu>
@@ -60,5 +63,6 @@ export default {
 }
 .menu_content {
   display: inline-flex;
+  font-weight: bold;
 }
 </style>
