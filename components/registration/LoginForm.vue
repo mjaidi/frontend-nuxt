@@ -51,8 +51,6 @@
 </template>
 
 <script>
-const Cookie = process.client ? require("js-cookie") : undefined;
-import axios from "axios";
 export default {
   name: "LoginForm",
   props: ["signupType"],
@@ -99,40 +97,20 @@ export default {
     };
   },
   methods: {
-    async simulateLogin() {
-      const urlEndpoint = this.signupType === "signup" ? "signup" : "signin";
-      await axios
-        .post(`http://localhost:3090/${urlEndpoint}`, {
-          username: this.model.username,
-          email: this.model.email,
-          password: this.model.password
-        })
-        .then(res => {
-          const auth = {
-            token: res.data.token
-          };
-          this.$store.commit("setAuth", auth); // mutating to store for client rendering
-          Cookie.set("auth", auth); // saving token in cookie for server rendering
-          this.success = true;
-          console.log(this.success);
-        })
-        .catch(err => console.log(err.response));
-    },
     async login() {
+      const urlEndpoint = this.signupType === "signup" ? "signup" : "signin";
+      const formData = {
+        username: this.model.username,
+        email: this.model.email,
+        password: this.model.password
+      };
       let valid = await this.$refs.form.validate();
       if (!valid) {
         return;
       }
       this.loading = true;
-      await this.simulateLogin();
+      await this.$store.dispatch("login", { urlEndpoint, formData });
       this.loading = false;
-      console.log(this.success);
-      if (this.success) {
-        this.$message.success("Login successfull");
-        this.$router.push("/");
-      } else {
-        this.$message.error("Username or password is invalid");
-      }
     }
   }
 };

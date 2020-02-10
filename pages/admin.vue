@@ -9,7 +9,7 @@
 export default {
   middleware: ["authenticated", "authorization"],
   meta: {
-    roles: ["admin", "client", "supplier"]
+    roles: ["admin"]
   },
   computed: {
     message() {
@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("secret");
+    this.$store.dispatch("admin");
   }
 };
 </script>
