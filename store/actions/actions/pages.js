@@ -23,7 +23,7 @@ export default {
   },
   admin: ({ commit }) => {
     axios
-      .get(`http://localhost:3090/secretAdmin`, config)
+      .get(`http://localhost:3090/admin`, config)
       .then(res => {
         commit("setMessage", res.data.message); // mutating to store for client rendering
       })
